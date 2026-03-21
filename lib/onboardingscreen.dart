@@ -174,6 +174,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       );
                     },
                     // ￿ EDIT SKIP BUTTON TEXT COLOR HERE:
+                    style: TextButton.styleFrom(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    ),
                     child: const Text(
                       "SKIP",
                       style: TextStyle(color: Colors.grey),
@@ -212,6 +215,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF5FAA58), // Button background color
                       foregroundColor: Colors.white, // Button text color
+                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20), // Makes the button rounded
                       ),

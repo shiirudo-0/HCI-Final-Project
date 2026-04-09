@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    );
-  }
-}
+import 'tracking_screen.dart';
+import 'achievement_list.dart';
+import 'Settings.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +59,7 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => PlaceholderPage("Achievements")),
+                  MaterialPageRoute(builder: (_) => AchievementListScreen()),
                 );
               },
             ),
@@ -78,7 +69,7 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => PlaceholderPage("Tracker")),
+                  MaterialPageRoute(builder: (_) => TrackingScreen()),
                 );
               },
             ),
@@ -86,32 +77,32 @@ class HomePage extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyLarge?.color),
         title: Row(
           children: [
             Image.asset('gymchad.png', height: 40),
             SizedBox(width: 20),
             Text(
               "GYMCHAD",
-              style: TextStyle(color: Colors.black),
+              style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
             ),
           ],
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings, color: Colors.black),
+            icon: Icon(Icons.settings),
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (_) => PlaceholderPage("Settings")),
+                MaterialPageRoute(builder: (_) => SettingsScreen()),
               );
             },
           )
         ],
       ),
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
         child: Column(
@@ -123,6 +114,7 @@ class HomePage extends StatelessWidget {
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
+                color: Theme.of(context).textTheme.displayLarge?.color,
               ),
             ),
             SizedBox(height: 40),
@@ -132,10 +124,9 @@ class HomePage extends StatelessWidget {
                 mainAxisSpacing: 25,
                 crossAxisSpacing: 25,
                 children: [
-                  buildMenuCard(context, Icons.fitness_center, "Start workout"),
+                  buildMenuCard(context, Icons.fitness_center, "Tracker"),
                   buildMenuCard(context, Icons.calendar_today, "Planner"),
                   buildMenuCard(context, Icons.emoji_events, "Achievements"),
-                  buildMenuCard(context, Icons.directions_run, "Tracker"),
                 ],
               ),
             ),
@@ -148,22 +139,39 @@ class HomePage extends StatelessWidget {
   Widget buildMenuCard(BuildContext context, IconData icon, String title) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => PlaceholderPage(title)),
-        );
+        if (title == "Tracker") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => TrackingScreen()),
+          );
+        } else if (title == "Achievements") {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => AchievementListScreen()),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => PlaceholderPage(title)),
+          );
+        }
       },
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey[300],
+          color: Theme.of(context).brightness == Brightness.dark
+              ? const Color(0xFF2A2A2A)
+              : Colors.grey[300],
           borderRadius: BorderRadius.circular(20),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 40),
+            Icon(icon, size: 40, color: Theme.of(context).textTheme.bodyLarge?.color),
             SizedBox(height: 10),
-            Text(title),
+            Text(
+              title,
+              style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+            ),
           ],
         ),
       ),
@@ -174,7 +182,7 @@ class HomePage extends StatelessWidget {
 class PlaceholderPage extends StatelessWidget {
   final String title;
 
-  PlaceholderPage(this.title);
+  const PlaceholderPage(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {

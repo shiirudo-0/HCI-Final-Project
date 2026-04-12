@@ -34,16 +34,6 @@ class HomePage extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.fitness_center),
-              title: Text("Workout"),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => PlaceholderPage("Workout")),
-                );
-              },
-            ),
-            ListTile(
               leading: Icon(Icons.calendar_today),
               title: Text("Planner"),
               onTap: () {
@@ -79,14 +69,18 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
         elevation: 0,
-        iconTheme: IconThemeData(color: Theme.of(context).textTheme.bodyLarge?.color),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).textTheme.bodyLarge?.color,
+        ),
         title: Row(
           children: [
             Image.asset('gymchad.png', height: 40),
             SizedBox(width: 20),
             Text(
               "GYMCHAD",
-              style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyLarge?.color,
+              ),
             ),
           ],
         ),
@@ -99,7 +93,7 @@ class HomePage extends StatelessWidget {
                 MaterialPageRoute(builder: (_) => SettingsScreen()),
               );
             },
-          )
+          ),
         ],
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -124,7 +118,7 @@ class HomePage extends StatelessWidget {
                 mainAxisSpacing: 25,
                 crossAxisSpacing: 25,
                 children: [
-                  buildMenuCard(context, Icons.fitness_center, "Tracker"),
+                  buildMenuCard(context, Icons.directions_run, "Tracker"),
                   buildMenuCard(context, Icons.calendar_today, "Planner"),
                   buildMenuCard(context, Icons.emoji_events, "Achievements"),
                 ],
@@ -166,11 +160,17 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 40, color: Theme.of(context).textTheme.bodyLarge?.color),
+            Icon(
+              icon,
+              size: 40,
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+            ),
             SizedBox(height: 10),
             Text(
               title,
-              style: TextStyle(color: Theme.of(context).textTheme.bodyLarge?.color),
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyLarge?.color,
+              ),
             ),
           ],
         ),
@@ -188,12 +188,7 @@ class PlaceholderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: Center(
-        child: Text(
-          "$title Page",
-          style: TextStyle(fontSize: 22),
-        ),
-      ),
+      body: Center(child: Text("$title Page", style: TextStyle(fontSize: 22))),
     );
   }
 }

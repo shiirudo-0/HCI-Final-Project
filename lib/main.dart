@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'Login.dart';
 import 'home.dart';
 import 'onboardingscreen.dart';
+import 'Registration.dart';
+import 'NeedHelp.dart';
 
 void main() {
   runApp(MyApp());
@@ -63,8 +66,11 @@ class MyApp extends StatelessWidget {
           themeMode: currentMode,
           home: const OnboardingScreen(),
           routes: {
+            '/login': (context) => const LoginScreen(),
             '/splash': (context) => const OnboardingScreen(),
             '/home': (context) => const HomePage(),
+            '/register': (context) => const RegisterScreen(),
+            '/help': (context) => const NeedHelpScreen(),
           },
         );
       },

@@ -165,13 +165,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   // HCI Principle: User Control. Let the user skip if they want to.
                   TextButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomePage(),
-                        ),
-                        
-                      );
+                      Navigator.pushReplacementNamed(context, '/login');
                     },
                     // ￿ EDIT SKIP BUTTON TEXT COLOR HERE:
                     style: TextButton.styleFrom(
@@ -196,12 +190,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   ElevatedButton(
                     onPressed: () {
                       if (currentIndex == contents.length - 1) {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ),
-                        );
+                        Navigator.pushReplacementNamed(context, '/login');
                       } else {
                         // Animate to the next screen smoothly
                         _controller.nextPage(

@@ -93,9 +93,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void logOut(BuildContext context) {
     // Clear user data, tokens, sessions here if needed
 
-    // Navigate to splash screen, removing all previous routes
+    // Navigate to login screen, removing all previous routes
     Navigator.of(context).pushNamedAndRemoveUntil(
-      '/splash',
+      '/login',
       (Route<dynamic> route) => false,
     );
   }

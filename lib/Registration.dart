@@ -38,10 +38,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: SafeArea(
         child: Stack(
           children: [
-            // 1. Faded Watermark Pattern Background
+
             _buildWatermarkBackground(),
 
-            // 2. Back Button (Top Left)
             Positioned(
               top: 16,
               left: 20,
@@ -64,7 +63,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
             ),
 
-            // 3. Main Content
             Center(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -76,7 +74,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     children: [
                       const SizedBox(height: 40),
                       
-                      // Logo (Centered)
                       Center(
                         child: Container(
                           width: 90,
@@ -103,7 +100,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 32),
 
-                      // Title
                       Text(
                         "Create Account",
                         style: TextStyle(
@@ -114,7 +110,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       const SizedBox(height: 16),
 
-                      // Input Fields
                       _buildInputField(
                         controller: _usernameController,
                         icon: Icons.person,
@@ -229,7 +224,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  /// Reusable widget for filled text inputs
   Widget _buildInputField({
     required TextEditingController controller,
     required IconData icon,
@@ -265,7 +259,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  /// Generates the background watermark pattern
   Widget _buildWatermarkBackground() {
     return IgnorePointer(
       child: Opacity(

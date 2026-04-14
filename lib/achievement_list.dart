@@ -15,7 +15,6 @@ class AchievementListScreen extends StatefulWidget {
 }
 
 class _AchievementListScreenState extends State<AchievementListScreen> {
-  // Initialize achievements with 0 progress (none completed)
   List<Achievement> achievements = [
     Achievement("First Step", 0.0),
     Achievement("1 km Walk", 0.0),
@@ -79,40 +78,75 @@ class _AchievementListScreenState extends State<AchievementListScreen> {
         title: Text("ACHIEVEMENTS"),
         centerTitle: true,
       ),
-      body: Column(
+      body: Stack(
         children: [
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+          // 🔥 Background Watermark
+          _buildWatermarkBackground(),
+
+          Column(
             children: [
-              Image.asset('gymchad.png', height: 40),
-              SizedBox(width: 12),
-          Text(
-            "ACHIEVEMENTS $completedCount/50",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).textTheme.displayLarge?.color,
-            ),
-          ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset('assets/gymchad.png', height: 40),
+                  SizedBox(width: 12),
+                  Text(
+                    "ACHIEVEMENTS $completedCount/50",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).textTheme.displayLarge?.color,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Expanded(
+                child: ListView.builder(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: achievements.length,
+                  itemBuilder: (context, index) {
+                    final achievement = achievements[index];
+                    return AchievementCard(
+                      title: achievement.title,
+                      index: index + 1,
+                      progress: achievement.progress,
+                    );
+                  },
+                ),
+              ),
             ],
           ),
-          SizedBox(height: 20),
-          Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              itemCount: achievements.length,
-              itemBuilder: (context, index) {
-                final achievement = achievements[index];
-                return AchievementCard(
-                  title: achievement.title,
-                  index: index + 1,
-                  progress: achievement.progress,
-                );
-              },
-            ),
-          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildWatermarkBackground() {
+    return IgnorePointer(
+      child: Opacity(
+        opacity: 0.15,
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 0.8,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: 20,
+          itemBuilder: (context, index) {
+            return const Center(
+              child: Image(
+                image: AssetImage('assets/gymchad.png'),
+                width: 80,
+                height: 80,
+                fit: BoxFit.contain,
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -151,8 +185,11 @@ class AchievementCard extends StatelessWidget {
             "$index. $title",
             style: TextStyle(
               fontSize: 16,
-              fontWeight: completed ? FontWeight.bold : FontWeight.normal,
-              color: completed ? Colors.white : Theme.of(context).textTheme.bodyLarge?.color,
+              fontWeight:
+                  completed ? FontWeight.bold : FontWeight.normal,
+              color: completed
+                  ? Colors.white
+                  : Theme.of(context).textTheme.bodyLarge?.color,
             ),
           ),
           SizedBox(height: 8),
@@ -160,7 +197,11 @@ class AchievementCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(6),
             child: LinearProgressIndicator(
               value: progress.clamp(0.0, 1.0),
-              backgroundColor: completed ? Colors.green[700] : (Theme.of(context).brightness == Brightness.dark ? Colors.grey[700] : Colors.grey[400]),
+              backgroundColor: completed
+                  ? Colors.green[700]
+                  : (Theme.of(context).brightness == Brightness.dark
+                      ? Colors.grey[700]
+                      : Colors.grey[400]),
               valueColor: AlwaysStoppedAnimation<Color>(
                   completed ? Colors.white : Colors.blue),
               minHeight: 8,
@@ -171,7 +212,9 @@ class AchievementCard extends StatelessWidget {
             "${(progress * 100).toStringAsFixed(0)}% completed",
             style: TextStyle(
               fontSize: 12,
-              color: completed ? Colors.white70 : Theme.of(context).textTheme.bodySmall?.color,
+              color: completed
+                  ? Colors.white70
+                  : Theme.of(context).textTheme.bodySmall?.color,
             ),
           ),
         ],

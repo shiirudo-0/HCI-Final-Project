@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class NeedHelpScreen extends StatelessWidget {
   const NeedHelpScreen({super.key});
 
-  // Brand Colors
   final Color brandGreen = const Color(0xFF5FA75D);
   final Color bgColor = const Color(0xFFF2F2F2);
   final Color cardBgColor = Colors.white;
@@ -24,10 +23,7 @@ class NeedHelpScreen extends StatelessWidget {
       body: SafeArea(
         child: Stack(
           children: [
-            // 🔹 Background watermark
-            // _buildWatermarkBackground(),
 
-            // 🔹 Back button
             Positioned(
               top: 16,
               left: 20,
@@ -57,7 +53,6 @@ class NeedHelpScreen extends StatelessWidget {
               ),
             ),
 
-            // 🔹 Main content
             Center(
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -90,7 +85,6 @@ class NeedHelpScreen extends StatelessWidget {
 
                     const SizedBox(height: 24),
 
-                    // 🔹 Title
                     Text(
                       "Need Help?",
                       style: TextStyle(
@@ -116,7 +110,6 @@ class NeedHelpScreen extends StatelessWidget {
 
                     const SizedBox(height: 32),
 
-                    // 🔹 Card
                     Container(
                       width: double.infinity,
                       padding: const EdgeInsets.all(24),
@@ -202,7 +195,6 @@ class NeedHelpScreen extends StatelessWidget {
     );
   }
 
-  // 🔹 Contact item widget
   Widget _buildContactItem({
     required IconData icon,
     required String label,

@@ -17,7 +17,7 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset('gymchad.png', height: 60),
+                  Image.asset('assets/gymchad.png', height: 60),
                   SizedBox(height: 20),
                   Text(
                     "GYMCHAD",
@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
         ),
         title: Row(
           children: [
-            Image.asset('gymchad.png', height: 40),
+            Image.asset('assets/gymchad.png', height: 40),
             SizedBox(width: 20),
             Text(
               "GYMCHAD",
@@ -97,35 +97,42 @@ class HomePage extends StatelessWidget {
         ],
       ),
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 20),
-            Text(
-              "WELCOME, USER!",
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).textTheme.displayLarge?.color,
-              ),
+      
+      body: Stack(
+        children: [
+          _buildWatermarkBackground(),
+
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20),
+                Text(
+                  "WELCOME, USER!",
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).textTheme.displayLarge?.color,
+                  ),
+                ),
+                SizedBox(height: 40),
+                Expanded(
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 25,
+                    crossAxisSpacing: 25,
+                    children: [
+                      buildMenuCard(context, Icons.directions_run, "Tracker"),
+                      buildMenuCard(context, Icons.calendar_today, "Planner"),
+                      buildMenuCard(context, Icons.emoji_events, "Achievements"),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 40),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                mainAxisSpacing: 25,
-                crossAxisSpacing: 25,
-                children: [
-                  buildMenuCard(context, Icons.directions_run, "Tracker"),
-                  buildMenuCard(context, Icons.calendar_today, "Planner"),
-                  buildMenuCard(context, Icons.emoji_events, "Achievements"),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -177,6 +184,34 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildWatermarkBackground() {
+    return IgnorePointer(
+      child: Opacity(
+        opacity: 0.15,
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 0.8,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: 20,
+          itemBuilder: (context, index) {
+            return const Center(
+              child: Image(
+                image: AssetImage('assets/gymchad.png'),
+                width: 80,
+                height: 80,
+                fit: BoxFit.contain,
+              ),
+            );
+          },
+        ),
+      ),
+    );
+  }
 }
 
 class PlaceholderPage extends StatelessWidget {
@@ -188,7 +223,47 @@ class PlaceholderPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text(title)),
-      body: Center(child: Text("$title Page", style: TextStyle(fontSize: 22))),
+      body: Stack(
+        children: [
+          // 🔥 Background also applied here
+          _buildWatermarkBackground(),
+
+          Center(
+            child: Text(
+              "$title Page",
+              style: TextStyle(fontSize: 22),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWatermarkBackground() {
+    return IgnorePointer(
+      child: Opacity(
+        opacity: 0.15,
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 0.8,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: 20,
+          itemBuilder: (context, index) {
+            return const Center(
+              child: Image(
+                image: AssetImage('assets/gymchad.png'),
+                width: 80,
+                height: 80,
+                fit: BoxFit.contain,
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }

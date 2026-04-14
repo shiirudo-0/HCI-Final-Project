@@ -27,76 +27,110 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 0,
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
-        child: Column(
-          children: [
-            SettingsToggle(
-              icon: Icons.notifications,
-              label: "NOTIFICATIONS",
-              value: notificationsEnabled,
-              onChanged: (val) {
-                setState(() {
-                  notificationsEnabled = val;
-                });
-                // TODO: Add notification toggle logic here
-              },
-            ),
-            ValueListenableBuilder<ThemeMode>(
-              valueListenable: themeNotifier,
-              builder: (context, currentMode, _) {
-                bool darkModeEnabled = currentMode == ThemeMode.dark;
-                return SettingsToggle(
-                  icon: Icons.nightlight_round,
-                  label: "DARK MODE",
-                  value: darkModeEnabled,
+
+      body: Stack(
+        children: [
+          _buildWatermarkBackground(),
+
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+            child: Column(
+              children: [
+                SettingsToggle(
+                  icon: Icons.notifications,
+                  label: "NOTIFICATIONS",
+                  value: notificationsEnabled,
                   onChanged: (val) {
-                    themeNotifier.value =
-                        val ? ThemeMode.dark : ThemeMode.light;
+                    setState(() {
+                      notificationsEnabled = val;
+                    });
                   },
-                );
-              },
-            ),
-            Spacer(),
-            GestureDetector(
-              onTap: () => logOut(context),
-              child: Container(
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(vertical: 14),
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  borderRadius: BorderRadius.circular(12),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.logout, color: Colors.black87),
-                    SizedBox(width: 8),
-                    Text(
-                      "LOG OUT",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                        color: Colors.black87,
-                      ),
+
+                ValueListenableBuilder<ThemeMode>(
+                  valueListenable: themeNotifier,
+                  builder: (context, currentMode, _) {
+                    bool darkModeEnabled = currentMode == ThemeMode.dark;
+                    return SettingsToggle(
+                      icon: Icons.nightlight_round,
+                      label: "DARK MODE",
+                      value: darkModeEnabled,
+                      onChanged: (val) {
+                        themeNotifier.value =
+                            val ? ThemeMode.dark : ThemeMode.light;
+                      },
+                    );
+                  },
+                ),
+
+                Spacer(),
+
+                GestureDetector(
+                  onTap: () => logOut(context),
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 14),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(12),
                     ),
-                  ],
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.logout, color: Colors.black87),
+                        SizedBox(width: 8),
+                        Text(
+                          "LOG OUT",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
   void logOut(BuildContext context) {
-    // Clear user data, tokens, sessions here if needed
-
-    // Navigate to login screen, removing all previous routes
     Navigator.of(context).pushNamedAndRemoveUntil(
       '/login',
       (Route<dynamic> route) => false,
+    );
+  }
+
+  Widget _buildWatermarkBackground() {
+    return IgnorePointer(
+      child: Opacity(
+        opacity: 0.15,
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 0.8,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: 20,
+          itemBuilder: (context, index) {
+            return const Center(
+              child: Image(
+                image: AssetImage('assets/gymchad.png'),
+                width: 80,
+                height: 80,
+                fit: BoxFit.contain,
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 }
@@ -116,7 +150,8 @@ class SettingsToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black87;
+    final color =
+        Theme.of(context).textTheme.bodyLarge?.color ?? Colors.black87;
 
     return Container(
       margin: EdgeInsets.only(bottom: 16),

@@ -10,7 +10,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // Brand Colors
+
   final Color brandGreen = const Color(0xFF6B9B69);
 
   final TextEditingController usernameController = TextEditingController();
@@ -46,15 +46,10 @@ class _LoginScreenState extends State<LoginScreen> {
           body: SafeArea(
             child: Stack(
               children: [
-                // 1. Faded Watermark Pattern Background
                 _buildWatermarkBackground(),
-
-                // 2. Top Header Structure (White space + Green band)
                 Column(
                   children: [
-                    // White space at the top to hold the app title
                     Container(height: 60, color: Colors.transparent),
-                    // Green Header Band
                     Container(
                       height: 65,
                       width: double.infinity,
@@ -79,8 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ],
                 ),
-
-                // 3. Logo and Main App Title (Positioned to overlap correctly)
+                
                 Positioned(
                   top: 15,
                   left: 24,
@@ -89,7 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Overlapping Circular Logo
                       Container(
                         width: 90,
                         height: 90,
@@ -112,7 +105,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      // App Title (GYMCHAD)
                       Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: Text(
@@ -129,7 +121,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
 
-                // 4. Main Login Form Card (Centered)
                 Center(
                   child: SingleChildScrollView(
                     child: Padding(
@@ -166,8 +157,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             const SizedBox(height: 24),
-
-                            // Input Fields
                             _buildInputField(
                               controller: usernameController,
                               icon: Icons.person,
@@ -185,8 +174,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               inputBgColor: inputBgColor,
                             ),
                             const SizedBox(height: 32),
-
-                            // Submit Button
                             Center(
                               child: SizedBox(
                                 width: 150,
@@ -232,8 +219,6 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                             const SizedBox(height: 40),
-
-                            // Bottom Action Texts
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.end,
@@ -296,7 +281,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  /// Reusable widget for filled text inputs
   Widget _buildInputField({
     required TextEditingController controller,
     required IconData icon,
@@ -328,7 +312,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  /// Generates the background watermark pattern
   Widget _buildWatermarkBackground() {
     return IgnorePointer(
       child: Opacity(

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'home.dart';
 
-// ==========================================
-// 1. DATA (THE CONTENT OF YOUR SCREENS)
-// ==========================================
 class OnboardingContent {
   String title;
   String description;
@@ -16,8 +13,6 @@ class OnboardingContent {
   });
 }
 
-// ￿ EDIT TEXT AND ICONS HERE:
-// Change the titles, descriptions, and icons to match your specific app
 List<OnboardingContent> contents = [
   OnboardingContent(
     title: 'Track Your Progress.',
@@ -33,14 +28,12 @@ List<OnboardingContent> contents = [
   ),
   OnboardingContent(
     title: 'Get Started',
-    description: 'Your future physique is built by todays effort. Stay consistent and never miss a session.',
-    icon: Icons.fitness_center, // Try changing this to Icons.check_circle
+    description:
+        'Your future physique is built by todays effort. Stay consistent and never miss a session.',
+    icon: Icons.fitness_center,
   ),
 ];
 
-// ==========================================
-// 2. THE SCREEN UI & BEHAVIOR
-// ==========================================
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
 
@@ -49,7 +42,6 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  // This variable remembers which page the user is currently looking at (0, 1, or 2).
   int currentIndex = 0;
 
   late PageController _controller;
@@ -66,157 +58,162 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     super.dispose();
   }
 
-  // HCI Principle: System Feedback.
-  // We build little animated dots to show the user exactly where they are.
   Widget buildDot(int index, BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
       height: 10,
-
-      // If this dot matches the current screen, make it wider!
       width: currentIndex == index ? 25 : 10,
       margin: const EdgeInsets.only(right: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-
-        // ￿ EDIT DOT COLORS HERE:
         color: currentIndex == index
             ? Color(0xFF5FAA58)
-            : Colors.grey.shade300, // Color of the inactive dots
+            : Colors.grey.shade300,
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Scaffold provides the blank canvas for our screen.
     return Scaffold(
-      // ￿ EDIT BACKGROUND COLOR HERE:
-      // Change Colors.white to Colors.black, Colors.blue.shade50, etc.
       backgroundColor: Colors.white,
 
-      // SafeArea keeps our design from hiding behind the phone's camera notch.
-      body: SafeArea(
-        child: Column(
-          children: [
-            // The PageView lets the user swipe horizontally.
-            Expanded(
-              child: PageView.builder(
-                controller: _controller,
-                itemCount: contents.length,
-                onPageChanged: (int index) {
-                  // When the user swipes, update our currentIndex variable.
-                  setState(() {
-                    currentIndex = index;
-                  });
-                },
-                itemBuilder: (_, i) {
-                  return Padding(
-                    padding: const EdgeInsets.all(40.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        // ￿ EDIT ICON APPEARANCE HERE:
-                        Icon(
-                          contents[i].icon,
-                          size: 150, // Change how big the icon is
-                          color: Color(0xFF5FAA58),
-                        ),
+      body: Stack(
+        children: [
+          _buildWatermarkBackground(),
 
-                        const SizedBox(height: 40), // Adds empty space
-
-                        // ￿ EDIT TITLE TEXT APPEARANCE HERE:
-                        Text(
-                          contents[i].title,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            // You can add color: Colors.black, here!
-                          ),
-                        ),
-
-                        const SizedBox(height: 20),
-
-                        // ￿ EDIT DESCRIPTION TEXT APPEARANCE HERE:
-                        Text(
-                          contents[i].description,
-                          textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Colors.grey, // Changes the description text color
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            // ==========================================
-            // 3. BOTTOM BUTTONS (SKIP, DOTS, NEXT)
-            // ==========================================
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // HCI Principle: User Control. Let the user skip if they want to.
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/login');
+          SafeArea(
+            child: Column(
+              children: [
+                Expanded(
+                  child: PageView.builder(
+                    controller: _controller,
+                    itemCount: contents.length,
+                    onPageChanged: (int index) {
+                      setState(() {
+                        currentIndex = index;
+                      });
                     },
-                    // ￿ EDIT SKIP BUTTON TEXT COLOR HERE:
-                    style: TextButton.styleFrom(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                    ),
-                    child: const Text(
-                      "SKIP",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-
-                  // Shows the dots we built earlier
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(
-                      contents.length,
-                      (index) => buildDot(index, context),
-                    ),
-                  ),
-
-                  // The main Call to Action button (NEXT / START)
-                  ElevatedButton(
-                    onPressed: () {
-                      if (currentIndex == contents.length - 1) {
-                        Navigator.pushReplacementNamed(context, '/login');
-                      } else {
-                        // Animate to the next screen smoothly
-                        _controller.nextPage(
-                          duration: const Duration(milliseconds: 300),
-                          curve: Curves.easeInOut,
-                        );
-                      }
+                    itemBuilder: (_, i) {
+                      return Padding(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              contents[i].icon,
+                              size: 150,
+                              color: Color(0xFF5FAA58),
+                            ),
+                            const SizedBox(height: 40),
+                            Text(
+                              contents[i].title,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              contents[i].description,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 16,
+                                color: Colors.grey,
+                              ),
+                            )
+                          ],
+                        ),
+                      );
                     },
+                  ),
+                ),
 
-                    // ￿ EDIT NEXT/START BUTTON COLOR HERE:
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF5FAA58), // Button background color
-                      foregroundColor: Colors.white, // Button text color
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20), // Makes the button rounded
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pushReplacementNamed(context, '/login');
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 18),
+                        ),
+                        child: const Text(
+                          "SKIP",
+                          style: TextStyle(color: Colors.grey, fontSize: 18),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      currentIndex == contents.length - 1 ? "START" : "NEXT",
-                    ),
-                  )
-                ],
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: List.generate(
+                          contents.length,
+                          (index) => buildDot(index, context),
+                        ),
+                      ),
+
+                      ElevatedButton(
+                        onPressed: () {
+                          if (currentIndex == contents.length - 1) {
+                            Navigator.pushReplacementNamed(context, '/login');
+                          } else {
+                            _controller.nextPage(
+                              duration: const Duration(milliseconds: 300),
+                              curve: Curves.easeInOut,
+                            );
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color(0xFF5FAA58),
+                          foregroundColor: Colors.white,
+                          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                        child: Text(
+                          currentIndex == contents.length - 1 ? "START" : "NEXT",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWatermarkBackground() {
+    return IgnorePointer(
+      child: Opacity(
+        opacity: 0.15,
+        child: GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            childAspectRatio: 0.8,
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+          ),
+          itemCount: 20,
+          itemBuilder: (context, index) {
+            return const Center(
+              child: Image(
+                image: AssetImage('assets/gymchad.png'),
+                width: 80,
+                height: 80,
+                fit: BoxFit.contain,
               ),
-            )
-          ],
+            );
+          },
         ),
       ),
     );

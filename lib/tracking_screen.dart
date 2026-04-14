@@ -45,7 +45,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
     return "$minutes:$seconds min";
   }
 
-  // ================= TRACKING =================
   Future<void> startTracking() async {
     LocationPermission permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied ||
@@ -105,7 +104,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
     });
   }
 
-  // ================= UI =================
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -211,7 +209,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
     );
   }
 
-  // ================= START UI =================
   Widget startUI() {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -232,7 +229,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
     );
   }
 
-  // ================= TRACKING UI =================
   Widget trackingUI() {
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -284,7 +280,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
     );
   }
 
-  // ================= FINISHED UI =================
   Widget finishedUI() {
     return Column(
       mainAxisSize: MainAxisSize.min,

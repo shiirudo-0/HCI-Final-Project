@@ -2,134 +2,146 @@ import 'package:flutter/material.dart';
 import 'tracking_screen.dart';
 import 'achievement_list.dart';
 import 'Settings.dart';
+import 'planner.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    
+    final Color bgColor = Theme.of(context).scaffoldBackgroundColor;
+    final Color cardBgColor = isDark ? const Color(0xFF2A2A2A) : const Color(0xFFEAEAEA);
+    final Color textColor = isDark ? Colors.white : Colors.black87;
+    final Color brandGreen = const Color(0xFF5FA75D);
+
     return Scaffold(
+      backgroundColor: bgColor,
       drawer: Drawer(
+        backgroundColor: bgColor,
         child: ListView(
+          padding: EdgeInsets.zero,
           children: [
             DrawerHeader(
-              decoration: BoxDecoration(color: Colors.green),
+              decoration: BoxDecoration(color: brandGreen),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Image.asset('assets/gymchad.png', height: 60),
-                  SizedBox(height: 20),
-                  Text(
+                  const SizedBox(height: 16),
+                  const Text(
                     "GYMCHAD",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    style: TextStyle(
+                      color: Colors.white, 
+                      fontSize: 22, 
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                    ),
                   ),
                 ],
               ),
             ),
             ListTile(
-              leading: Icon(Icons.home),
-              title: Text("Home"),
-              onTap: () {
-                Navigator.pop(context);
-              },
+              leading: Icon(Icons.home, color: textColor),
+              title: Text("Home", style: TextStyle(color: textColor, fontWeight: FontWeight.w500)),
+              onTap: () => Navigator.pop(context),
             ),
             ListTile(
-              leading: Icon(Icons.calendar_today),
-              title: Text("Planner"),
+              leading: Icon(Icons.calendar_today, color: textColor),
+              title: Text("Planner", style: TextStyle(color: textColor, fontWeight: FontWeight.w500)),
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => PlaceholderPage("Planner")),
+                  MaterialPageRoute(builder: (_) => PlannerScreen()), 
                 );
               },
             ),
             ListTile(
-              leading: Icon(Icons.emoji_events),
-              title: Text("Achievements"),
+              leading: Icon(Icons.emoji_events, color: textColor),
+              title: Text("Achievements", style: TextStyle(color: textColor, fontWeight: FontWeight.w500)),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => AchievementListScreen()),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (_) => AchievementListScreen()));
               },
             ),
             ListTile(
-              leading: Icon(Icons.directions_run),
-              title: Text("Tracker"),
+              leading: Icon(Icons.directions_run, color: textColor),
+              title: Text("Tracker", style: TextStyle(color: textColor, fontWeight: FontWeight.w500)),
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => TrackingScreen()),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (_) => TrackingScreen()));
               },
             ),
           ],
         ),
       ),
       appBar: AppBar(
-        backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+        backgroundColor: Colors.transparent,
         elevation: 0,
-        iconTheme: IconThemeData(
-          color: Theme.of(context).textTheme.bodyLarge?.color,
-        ),
-        title: Row(
-          children: [
-            Image.asset('assets/gymchad.png', height: 40),
-            SizedBox(width: 20),
-            Text(
-              "GYMCHAD",
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-              ),
-            ),
-          ],
+        leading: Builder(
+          builder: (context) => IconButton(
+            padding: const EdgeInsets.only(left: 16),
+            icon: Image.asset('assets/gymchad.png', height: 35),
+            onPressed: () => Scaffold.of(context).openDrawer(),
+          ),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            padding: const EdgeInsets.only(right: 16),
+            icon: Icon(Icons.settings, color: textColor, size: 30),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => SettingsScreen()),
-              );
+              Navigator.push(context, MaterialPageRoute(builder: (_) => SettingsScreen()));
             },
           ),
         ],
       ),
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-      
       body: Stack(
         children: [
-          _buildWatermarkBackground(),
-
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20),
-                Text(
-                  "WELCOME, USER!",
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).textTheme.displayLarge?.color,
+          _buildWatermarkBackground(isDark),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 50),
+                  Text(
+                    "WELCOME, USER!",
+                    style: TextStyle(
+                      fontSize: 28,
+                      fontWeight: FontWeight.w600,
+                      color: textColor,
+                      letterSpacing: 0.5,
+                    ),
                   ),
-                ),
-                SizedBox(height: 40),
-                Expanded(
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 25,
-                    crossAxisSpacing: 25,
-                    children: [
-                      buildMenuCard(context, Icons.directions_run, "Tracker"),
-                      buildMenuCard(context, Icons.calendar_today, "Planner"),
-                      buildMenuCard(context, Icons.emoji_events, "Achievements"),
-                    ],
+                  const SizedBox(height: 50),
+                  Expanded(
+                    child: TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 0.0, end: 1.0),
+                      duration: const Duration(milliseconds: 600),
+                      curve: Curves.easeOutCubic,
+                      builder: (context, value, child) {
+                        return Opacity(
+                          opacity: value,
+                          child: Transform.translate(
+                            offset: Offset(0, 20 * (1 - value)),
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: Wrap(
+                        spacing: 20,
+                        runSpacing: 25,
+                        children: [
+                          buildMenuCard(context, Icons.directions_run, "Tracker", cardBgColor, textColor),
+                          buildMenuCard(context, Icons.calendar_today, "Planner", cardBgColor, textColor),
+                          buildMenuCard(context, Icons.emoji_events, "Achievements", cardBgColor, textColor),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ],
@@ -137,58 +149,47 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildMenuCard(BuildContext context, IconData icon, String title) {
-    return GestureDetector(
-      onTap: () {
-        if (title == "Tracker") {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => TrackingScreen()),
-          );
-        } else if (title == "Achievements") {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => AchievementListScreen()),
-          );
-        } else {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => PlaceholderPage(title)),
-          );
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).brightness == Brightness.dark
-              ? const Color(0xFF2A2A2A)
-              : Colors.grey[300],
+  Widget buildMenuCard(BuildContext context, IconData icon, String title, Color cardColor, Color textColor) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Material(
+          color: cardColor,
           borderRadius: BorderRadius.circular(20),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              size: 40,
-              color: Theme.of(context).textTheme.bodyLarge?.color,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(20),
+            onTap: () {
+              if (title == "Tracker") {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => TrackingScreen()));
+              } else if (title == "Achievements") {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => AchievementListScreen()));
+              } else if (title == "Planner") {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => PlannerScreen()));
+              } else {
+                Navigator.push(context, MaterialPageRoute(builder: (_) => PlaceholderPage(title)));
+              }
+            },
+            child: Container(
+              width: 90,
+              height: 90,
+              alignment: Alignment.center,
+              child: Icon(icon, size: 38, color: textColor),
             ),
-            SizedBox(height: 10),
-            Text(
-              title,
-              style: TextStyle(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
+        const SizedBox(height: 10),
+        Text(
+          title,
+          style: TextStyle(color: textColor, fontSize: 14, fontWeight: FontWeight.w400),
+        ),
+      ],
     );
   }
 
-  Widget _buildWatermarkBackground() {
+  Widget _buildWatermarkBackground(bool isDark) {
     return IgnorePointer(
       child: Opacity(
-        opacity: 0.15,
+        opacity: isDark ? 0.15 : 0.1,
         child: GridView.builder(
           physics: const NeverScrollableScrollPhysics(),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -199,12 +200,14 @@ class HomePage extends StatelessWidget {
           ),
           itemCount: 20,
           itemBuilder: (context, index) {
-            return const Center(
-              child: Image(
-                image: AssetImage('assets/gymchad.png'),
+            return Center(
+              child: Image.asset(
+                'assets/gymchad.png',
                 width: 80,
                 height: 80,
                 fit: BoxFit.contain,
+                color: isDark ? Colors.grey.shade300 : Colors.grey.shade500,
+                colorBlendMode: BlendMode.modulate,
               ),
             );
           },
@@ -216,54 +219,20 @@ class HomePage extends StatelessWidget {
 
 class PlaceholderPage extends StatelessWidget {
   final String title;
-
   const PlaceholderPage(this.title, {super.key});
 
   @override
   Widget build(BuildContext context) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
-      appBar: AppBar(title: Text(title)),
-      body: Stack(
-        children: [
-          // 🔥 Background also applied here
-          _buildWatermarkBackground(),
-
-          Center(
-            child: Text(
-              "$title Page",
-              style: TextStyle(fontSize: 22),
-            ),
-          ),
-        ],
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: IconThemeData(color: isDark ? Colors.white : Colors.black),
+        title: Text(title, style: TextStyle(color: isDark ? Colors.white : Colors.black)),
       ),
-    );
-  }
-
-  Widget _buildWatermarkBackground() {
-    return IgnorePointer(
-      child: Opacity(
-        opacity: 0.15,
-        child: GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            childAspectRatio: 0.8,
-            crossAxisSpacing: 10,
-            mainAxisSpacing: 10,
-          ),
-          itemCount: 20,
-          itemBuilder: (context, index) {
-            return const Center(
-              child: Image(
-                image: AssetImage('assets/gymchad.png'),
-                width: 80,
-                height: 80,
-                fit: BoxFit.contain,
-              ),
-            );
-          },
-        ),
-      ),
+      body: Center(child: Text("$title Page", style: const TextStyle(fontSize: 22))),
     );
   }
 }

@@ -28,7 +28,6 @@ class _TrackingScreenState extends State<TrackingScreen> {
   LatLng _currentPosition = LatLng(14.5995, 120.9842);
   final Distance distanceCalculator = Distance();
 
-  // ================= TIMER =================
   void startTimer() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {

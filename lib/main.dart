@@ -4,7 +4,25 @@ import 'home.dart';
 import 'onboardingscreen.dart';
 import 'Registration.dart';
 import 'NeedHelp.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    body: FlutterMap(
+      options: MapOptions(
+        initialCenter: LatLng(14.5995, 120.9842),
+        initialZoom: 13,
+      ),
+      children: [
+        TileLayer(
+          urlTemplate: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+        ),
+      ],
+    ),
+  );
+}
 void main() {
   runApp(MyApp());
 }

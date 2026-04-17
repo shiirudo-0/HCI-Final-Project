@@ -1,3 +1,3 @@
-# splashscreen
+# GymChad
 
 A new Flutter project.

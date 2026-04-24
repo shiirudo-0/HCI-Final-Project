@@ -27,11 +27,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
         elevation: 0,
         centerTitle: true,
       ),
-
       body: Stack(
         children: [
           _buildWatermarkBackground(),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
             child: Column(
@@ -46,7 +44,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     });
                   },
                 ),
-
                 ValueListenableBuilder<ThemeMode>(
                   valueListenable: themeNotifier,
                   builder: (context, currentMode, _) {
@@ -62,11 +59,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     );
                   },
                 ),
-
                 Spacer(),
-
                 GestureDetector(
-                  onTap: () => logOut(context),
+                  onTap: () => _confirmLogout(context),
                   child: Container(
                     width: double.infinity,
                     padding: EdgeInsets.symmetric(vertical: 14),
@@ -96,6 +91,33 @@ class _SettingsScreenState extends State<SettingsScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _confirmLogout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("Confirm Logout"),
+          content: Text("Are you sure you want to log out?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                logOut(context);
+              },
+              child: Text("Log Out"),
+            ),
+          ],
+        );
+      },
     );
   }
 
